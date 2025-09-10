@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sentence Fragment Shuffler</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 40px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+    #fragments {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .fragment {
+      padding: 10px 15px;
+      margin: 5px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    input {
+      padding: 5px;
+      width: 60px;
+      font-size: 1rem;
+    }
+    button {
+      padding: 8px 16px;
+      margin: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sentence Fragment Shuffler</h1>
+    
+    <div>
+      <label for="shuffleCount">Number of shuffles:</label>
+      <input type="number" id="shuffleCount" min="1" value="5" />
+    </div>
+    
+    <div>
+      <button onclick="startShuffling()">Press here to shuffle</button>
+      <button onclick="resetFragments()">Reset</button>
+    </div>
+    
+    <div id="fragments"></div>
+  </div>
+
+  <script>
+    const originalFragments = [
+      "The quick",
+      "brown fox",
+      "jumps over",
+      "the lazy",
+      "dog's back."
+    ];
+
+    let currentFragments = [...originalFragments];
+
+    const fragmentsContainer = document.getElementById("fragments");
+
+    // Display the fragments visually
+    function renderFragments() {
+      fragmentsContainer.innerHTML = '';
+      currentFragments.forEach(fragment => {
+        const div = document.createElement("div");
+        div.className = "fragment";
+        div.textContent = fragment;
+        fragmentsContainer.appendChild(div);
+      });
+    }
+
+    // Fisher-Yates shuffle (1 pass)
+    function singleShuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    // Animate multiple shuffles
+    function startShuffling() {
+      const shuffleTimes = parseInt(document.getElementById("shuffleCount").value) || 1;
+      let count = 0;
+
+      const interval = setInterval(() => {
+        singleShuffle(currentFragments);
+        renderFragments();
+        count++;
+        if (count >= shuffleTimes) {
+          clearInterval(interval);
+        }
+      }, 200); // Delay between shuffles (ms)
+    }
+
+    // Reset to original order
+    function resetFragments() {
+      currentFragments = [...originalFragments];
+      renderFragments();
+    }
+
+    // Initial render
+    renderFragments();
+  </script>
+</body>
+</html>
