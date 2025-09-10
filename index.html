@@ -71,7 +71,6 @@
 
     const fragmentsContainer = document.getElementById("fragments");
 
-    // Display the fragments visually
     function renderFragments() {
       fragmentsContainer.innerHTML = '';
       currentFragments.forEach(fragment => {
@@ -82,7 +81,7 @@
       });
     }
 
-    // Fisher-Yates shuffle (1 pass)
+  
     function singleShuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -90,7 +89,7 @@
       }
     }
 
-    // Animate multiple shuffles
+
     function startShuffling() {
       const shuffleTimes = parseInt(document.getElementById("shuffleCount").value) || 1;
       let count = 0;
@@ -102,10 +101,10 @@
         if (count >= shuffleTimes) {
           clearInterval(interval);
         }
-      }, 200); // Delay between shuffles (ms)
+      }, 100); // 
     }
 
-    // Reset to original order
+    
     function resetFragments() {
       currentFragments = [...originalFragments];
       renderFragments();
